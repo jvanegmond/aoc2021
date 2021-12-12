@@ -1,16 +1,24 @@
-# Go get some coffee
 fishes = [1,4,1,1,1,1,1,1,1,4,3,1,1,3,5,1,5,3,2,1,1,2,3,1,1,5,3,1,5,1,1,2,1,2,1,1,3,1,5,1,1,1,3,1,1,1,1,1,1,4,5,3,1,1,1,1,1,1,2,1,1,1,1,4,4,4,1,1,1,1,5,1,2,4,1,1,4,1,2,1,1,1,2,1,5,1,1,1,3,4,1,1,1,3,2,1,1,1,4,1,1,1,5,1,1,4,1,1,2,1,4,1,1,1,3,1,1,1,1,1,3,1,3,1,1,2,1,4,1,1,1,1,3,1,1,1,1,1,1,2,1,3,1,1,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,5,1,1,1,2,2,1,1,3,5,1,1,1,1,3,1,3,3,1,1,1,1,3,5,2,1,1,1,1,5,1,1,1,1,1,1,1,2,1,2,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,5,1,4,3,3,1,3,4,1,1,1,1,1,1,1,1,1,1,4,3,5,1,1,1,1,1,1,1,1,1,1,1,1,1,5,2,1,4,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,1,1,1,1,1,1,1,2,1,4,4,1,1,1,1,1,1,1,5,1,1,2,5,1,1,4,1,3,1,1]
-days = 80
+max_days = 256
+days = [0] * max_days
 
-for day in range(days):
-    new_fishes = 0
-    for n in range(len(fishes)):
-        if fishes[n] == 0:
-            new_fishes += 1
-            fishes[n] = 6
-        else:
-            fishes[n] -= 1
-    fishes += [8] * new_fishes
-    print("day", day, "fishes", len(fishes))
+def spawn(num, day):
+    if day < len(days):
+        days[day] += num
 
-print("solution =", len(fishes))
+# Spawn the initial fishes
+for fish in fishes:
+    spawn(1, fish)
+
+# Go through the days and spawn new fish
+for today in range(len(days)):
+    alive = days[today]
+    
+    # Each alive fish, spawns a new fish after 6 days
+    spawn(alive, today + 1 + 6)
+
+    # Each alive fish, spawns a fish which spawns another fish after 8 days
+    spawn(alive, today + 1 + 8)
+
+# Answer is initial fishes + total new fishes
+print("solution =", len(fishes) + sum(days))
