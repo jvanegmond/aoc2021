@@ -1,8 +1,6 @@
 with open("day8.txt") as file:
     input = file.read()
 
-#input = "dcga cadgbfe gecba cbfde eda cdbea gbadfe fegcba bedgca da | bgefdac bdace ad agcd"
-
 part1 = 0
 part2 = 0
 
